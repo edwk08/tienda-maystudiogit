@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
 import Navbar from "@/components/Navbar";
-
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
@@ -29,9 +27,7 @@ export default function CartPage() {
 Talla: ${item.size}
 Color: ${item.color}
 Cantidad: ${item.quantity}
-Subtotal: $${
-            item.price * item.quantity
-          }\n`
+Subtotal: $${item.price * item.quantity}\n`
       )
       .join("\n")}\nTotal: $${total}`
   );
@@ -106,10 +102,7 @@ Subtotal: $${
                     </div>
 
                     <p className="text-2xl font-black text-pink-500 mt-5">
-                      $
-                      {item.price.toLocaleString(
-                        "es-CO"
-                      )}
+                      ${item.price.toLocaleString("es-CO")}
                     </p>
 
                     <div className="flex items-center gap-3 mt-6">
@@ -149,14 +142,18 @@ Subtotal: $${
                     <p className="text-3xl font-black text-[#4b2ca3]">
                       $
                       {(
-                        item.price *
-                        item.quantity
+                        item.price * item.quantity
                       ).toLocaleString("es-CO")}
                     </p>
 
+                    {/* FIX AQUÍ 👇 */}
                     <button
                       onClick={() =>
-                        removeFromCart(item.id)
+                        removeFromCart(
+                          item.id,
+                          item.size,
+                          item.color
+                        )
                       }
                       className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition duration-300 font-semibold shadow-lg"
                     >
@@ -175,8 +172,7 @@ Subtotal: $${
                   </p>
 
                   <h2 className="text-5xl font-black text-[#4b2ca3]">
-                    $
-                    {total.toLocaleString("es-CO")}
+                    ${total.toLocaleString("es-CO")}
                   </h2>
                 </div>
 
