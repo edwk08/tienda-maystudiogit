@@ -163,11 +163,8 @@ Subtotal: $${
 
                     <button
                       onClick={() =>
-                        removeFromCart(
-                          item.id,
-                          item.size,
-                          item.color
-                        )
+                        removeFromCart(item.id)
+                      
                       }
                       className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition duration-300 font-semibold shadow-lg"
                     >
