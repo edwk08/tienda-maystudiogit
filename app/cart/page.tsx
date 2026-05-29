@@ -40,11 +40,9 @@ Subtotal: $${
 
   return (
     <main className="min-h-screen">
-      
       <Navbar />
 
       <section className="max-w-6xl mx-auto px-6 py-10">
-        
         <div className="text-center mb-12">
           <h1 className="text-5xl font-black text-[#4b2ca3] mb-3">
             Tu carrito
@@ -57,7 +55,6 @@ Subtotal: $${
 
         {cart.length === 0 ? (
           <div className="bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl rounded-[30px] p-12 text-center">
-            
             <p className="text-gray-500 text-xl mb-8">
               Tu carrito está vacío
             </p>
@@ -77,7 +74,6 @@ Subtotal: $${
                   key={`${item.id}-${item.size}-${item.color}-${index}`}
                   className="bg-white/75 backdrop-blur-xl border border-white/30 rounded-[30px] shadow-xl p-5 flex flex-col md:flex-row gap-6 hover:shadow-2xl transition duration-300"
                 >
-                  
                   <div className="relative w-full md:w-44 h-44 rounded-2xl overflow-hidden">
                     <Image
                       src={item.image}
@@ -89,7 +85,6 @@ Subtotal: $${
                   </div>
 
                   <div className="flex-1">
-                    
                     <h2 className="text-3xl font-black text-[#4b2ca3]">
                       {item.name}
                     </h2>
@@ -118,7 +113,6 @@ Subtotal: $${
                     </p>
 
                     <div className="flex items-center gap-3 mt-6">
-                      
                       <button
                         onClick={() =>
                           decreaseQuantity(
@@ -152,7 +146,6 @@ Subtotal: $${
                   </div>
 
                   <div className="flex flex-col justify-between items-end">
-                    
                     <p className="text-3xl font-black text-[#4b2ca3]">
                       $
                       {(
@@ -164,7 +157,6 @@ Subtotal: $${
                     <button
                       onClick={() =>
                         removeFromCart(item.id)
-                      
                       }
                       className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition duration-300 font-semibold shadow-lg"
                     >
@@ -176,9 +168,7 @@ Subtotal: $${
             </div>
 
             <div className="mt-10 bg-white/75 backdrop-blur-xl border border-white/30 shadow-2xl rounded-[30px] p-8">
-              
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                
                 <div>
                   <p className="text-gray-500 mb-2">
                     Total del pedido
