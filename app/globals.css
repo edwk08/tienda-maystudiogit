@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f2ff;
+  --foreground: #1f1f1f;
+
+  --primary: #4b2ca3;
+  --primary-light: #6d4edb;
+
+  --secondary: #ff4fa3;
+
+  --card: rgba(255, 255, 255, 0.72);
+
+  --border: rgba(255, 255, 255, 0.35);
+
+  --shadow:
+    0 10px 30px rgba(75, 44, 163, 0.08);
+
+  --radius: 28px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 79, 163, 0.08),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(75, 44, 163, 0.12),
+      transparent 30%
+    ),
+    var(--background);
+
+  color: var(--foreground);
+
+  min-height: 100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  overflow-x: hidden;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(75, 44, 163, 0.3);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 44, 163, 0.5);
+}
+
+/* =========================
+   SELECCIÓN
+========================= */
+
+::selection {
+  background: rgba(75, 44, 163, 0.2);
+}
+
+/* =========================
+   UTILIDADES GLOBALES
+========================= */
+
+.glass-card {
+  background: var(--card);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow);
+}
+
+.primary-button {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  color: white;
+
+  border-radius: 18px;
+
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 10px 25px rgba(75, 44, 163, 0.22);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 16px 35px rgba(75, 44, 163, 0.28);
+}
+
+.secondary-button {
+  background: linear-gradient(
+    135deg,
+    var(--secondary),
+    #ff77b9
+  );
+
+  color: white;
+
+  border-radius: 18px;
+
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 10px 25px rgba(255, 79, 163, 0.22);
+}
+
+.secondary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 16px 35px rgba(255, 79, 163, 0.3);
+}
+
+.soft-border {
+  border: 1px solid rgba(255,255,255,0.45);
+}
+
+.page-container {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.section-spacing {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.title-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.input-style {
+  background: rgba(255,255,255,0.75);
+
+  border: 1px solid rgba(255,255,255,0.5);
+
+  backdrop-filter: blur(12px);
+
+  border-radius: 18px;
+
+  transition: all 0.25s ease;
+}
+
+.input-style:focus {
+  outline: none;
+
+  border-color: rgba(75,44,163,0.4);
+
+  box-shadow:
+    0 0 0 4px rgba(75,44,163,0.08);
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+.fade-up {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
