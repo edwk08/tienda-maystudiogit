@@ -20,18 +20,9 @@ export type Product = {
 
 type ProductContextType = {
   products: Product[];
-
-  addProduct: (
-    product: Product
-  ) => Promise<void>;
-
-  updateProduct: (
-    product: Product
-  ) => Promise<void>;
-
-  deleteProduct: (
-    id: number
-  ) => Promise<void>;
+  addProduct: (product: Product) => Promise<void>;
+  updateProduct: (product: Product) => Promise<void>;
+  deleteProduct: (id: number) => Promise<void>;
 };
 
 const ProductContext = createContext<
@@ -43,109 +34,74 @@ export function ProductProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [products, setProducts] =
-    useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  // cargar productos desde supabase
+  // 🔁 FUNCIÓN CENTRAL: siempre trae datos reales
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      console.error("Error cargando productos:", error);
+      return;
+    }
+
+    setProducts(data as Product[]);
+  };
+
+  // 📦 Cargar al iniciar
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data, error } =
-        await supabase
-          .from("products")
-          .select("*")
-          .order("id", {
-            ascending: false,
-          });
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      setProducts(data as Product[]);
-    };
-
     fetchProducts();
   }, []);
 
-  // agregar producto
-  const addProduct = async (
-    product: Product
-  ) => {
-    const {
-      id,
-      ...productWithoutId
-    } = product;
+  // ➕ AGREGAR
+  const addProduct = async (product: Product) => {
+    const { id, ...productWithoutId } = product;
 
-    const { data, error } =
-      await supabase
-        .from("products")
-        .insert([productWithoutId])
-        .select();
+    const { error } = await supabase
+      .from("products")
+      .insert([productWithoutId]);
 
     if (error) {
-      console.error(error);
+      console.error("Error agregando producto:", error);
       return;
     }
 
-    if (data) {
-      setProducts((prev) => [
-        ...data,
-        ...prev,
-      ]);
-    }
+    await fetchProducts();
   };
 
-  // editar producto
-  const updateProduct = async (
-    updated: Product
-  ) => {
-    const {
-      id,
-      ...productWithoutId
-    } = updated;
+  // ✏️ ACTUALIZAR
+  const updateProduct = async (updated: Product) => {
+    const { id, ...productWithoutId } = updated;
 
-    const { data, error } =
-      await supabase
-        .from("products")
-        .update(productWithoutId)
-        .eq("id", id)
-        .select();
+    const { error } = await supabase
+      .from("products")
+      .update(productWithoutId)
+      .eq("id", id);
 
     if (error) {
-      console.error(error);
+      console.error("Error actualizando producto:", error);
       return;
     }
 
-    if (data) {
-      setProducts((prev) =>
-        prev.map((product) =>
-          product.id === id
-            ? (data[0] as Product)
-            : product
-        )
-      );
-    }
+    await fetchProducts();
   };
 
-  // eliminar producto
-  const deleteProduct = async (
-    id: number
-  ) => {
-    const { error } =
-      await supabase
-        .from("products")
-        .delete()
-        .eq("id", id);
+  // 🗑️ ELIMINAR
+  const deleteProduct = async (id: number) => {
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", id);
 
     if (error) {
-      console.error(error);
+      console.error("Error eliminando producto:", error);
       return;
     }
 
-    setProducts((prev) =>
-      prev.filter((p) => p.id !== id)
-    );
+    await fetchProducts();
   };
 
   return (
