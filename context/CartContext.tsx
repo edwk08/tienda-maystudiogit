@@ -26,7 +26,11 @@ type CartContextType = {
     product: Omit<CartItem, "quantity">
   ) => void;
 
-  removeFromCart: (id: number) => void;
+  removeFromCart: (
+    id: number,
+    size: string,
+    color: string
+  ) => void;
 
   increaseQuantity: (
     id: number,
@@ -81,7 +85,6 @@ export function CartProvider({
           item.color === product.color
       );
 
-      // Si ya existe esa variante
       if (existing) {
         return prev.map((item) =>
           item.id === product.id &&
@@ -95,7 +98,6 @@ export function CartProvider({
         );
       }
 
-      // Si no existe
       return [
         ...prev,
         {
@@ -106,12 +108,21 @@ export function CartProvider({
     });
   };
 
-  // Eliminar producto completo
+  // ❌ FIX IMPORTANTE: ahora usa size + color
   const removeFromCart = (
-    id: number
+    id: number,
+    size: string,
+    color: string
   ) => {
     setCart((prev) =>
-      prev.filter((item) => item.id !== id)
+      prev.filter(
+        (item) =>
+          !(
+            item.id === id &&
+            item.size === size &&
+            item.color === color
+          )
+      )
     );
   };
 
