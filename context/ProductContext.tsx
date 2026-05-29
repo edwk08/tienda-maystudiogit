@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 
-import { initialProducts } from "@/lib/products";
 import { supabase } from "@/lib/supabase";
 
 export type Product = {
@@ -45,7 +44,7 @@ export function ProductProvider({
   children: React.ReactNode;
 }) {
   const [products, setProducts] =
-    useState<Product[]>(initialProducts);
+    useState<Product[]>([]);
 
   // cargar productos desde supabase
   useEffect(() => {
@@ -53,16 +52,17 @@ export function ProductProvider({
       const { data, error } =
         await supabase
           .from("products")
-          .select("*");
+          .select("*")
+          .order("id", {
+            ascending: false,
+          });
 
       if (error) {
         console.error(error);
         return;
       }
 
-      if (data && data.length > 0) {
-        setProducts(data as Product[]);
-      }
+      setProducts(data as Product[]);
     };
 
     fetchProducts();
@@ -70,52 +70,62 @@ export function ProductProvider({
 
   // agregar producto
   const addProduct = async (
-  product: Product
-) => {
-  const {
-    id,
-    ...productWithoutId
-  } = product;
-
-  const { data, error } =
-    await supabase
-      .from("products")
-      .insert([productWithoutId])
-      .select();
-
-  if (error) {
-    console.log(error);
-    return;
-  }
-
-  setProducts((prev) => [
-    ...prev,
-    ...data,
-  ]);
-};
-
-  // editar producto
-  const updateProduct = async (
-    updated: Product
+    product: Product
   ) => {
-    const { error } =
+    const {
+      id,
+      ...productWithoutId
+    } = product;
+
+    const { data, error } =
       await supabase
         .from("products")
-        .update(updated)
-        .eq("id", updated.id);
+        .insert([productWithoutId])
+        .select();
 
     if (error) {
       console.error(error);
       return;
     }
 
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === updated.id
-          ? updated
-          : product
-      )
-    );
+    if (data) {
+      setProducts((prev) => [
+        ...data,
+        ...prev,
+      ]);
+    }
+  };
+
+  // editar producto
+  const updateProduct = async (
+    updated: Product
+  ) => {
+    const {
+      id,
+      ...productWithoutId
+    } = updated;
+
+    const { data, error } =
+      await supabase
+        .from("products")
+        .update(productWithoutId)
+        .eq("id", id)
+        .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    if (data) {
+      setProducts((prev) =>
+        prev.map((product) =>
+          product.id === id
+            ? (data[0] as Product)
+            : product
+        )
+      );
+    }
   };
 
   // eliminar producto
