@@ -215,11 +215,7 @@ Subtotal: $${
                   {/* Delete */}
                   <button
                     onClick={() =>
-                      removeFromCart(
-                        item.id,
-                        item.size,
-                        item.color
-                      )
+                      removeFromCart(item.id)
                     }
                     className="text-red-400 hover:text-red-600 transition font-semibold self-start"
                   >
