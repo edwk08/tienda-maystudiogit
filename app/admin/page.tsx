@@ -293,6 +293,8 @@ export default function AdminPage() {
                   "M",
                   "L",
                   "XL",
+                  "No Aplica N/A",
+                
                 ].map((size) => {
                   const active =
                     form.sizes.includes(
@@ -356,6 +358,7 @@ export default function AdminPage() {
                   "Azul",
                   "Gris",
                   "Beige",
+                  "No Aplica N/A",
                 ].map((color) => {
                   const active =
                     form.colors.includes(
